@@ -15,7 +15,7 @@ services:
       MB_DB_PASS: mysecretpassword
       MB_DB_HOST: postgres
     networks:
-      - metanet1
+      - netemplea
     healthcheck:
       test: curl --fail -I http://localhost:3000/api/health || exit 1
       interval: 15s
@@ -32,7 +32,7 @@ services:
     volumes:
       - ./pg_data:/var/lib/postgresql/data
     networks:
-      - metanet1
+      - netemplea
 networks:
-  metanet1:
+  netemplea:
     driver: bridge
