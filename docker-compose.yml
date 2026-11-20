@@ -1,20 +1,58 @@
-postgres:
-  image: postgres:16
-  container_name: emplea_postgres
-  hostname: postgres
-  restart: unless-stopped
 
-  env_file:
-    - postgres/.env
+services:
 
-  volumes:
-    - /home/dashcloudbi/docker/datos/metabase/emplea:/var/lib/postgresql/data
+  metabase:
+    image: metabase/metabase:v0.64.8.2
+    container_name: emplea_metabase
+    hostname: metabase
+    restart: unless-stopped
 
-  networks:
-    - netemplea
+    volumes:
+      - /dev/urandom:/dev/random:ro
 
-  healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U metabase -d metabaseappdb"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
+    ports:
+      - "${METABASE_PORT:-3000}:3000"
+
+    env_file:
+      - .env
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - netemplea
+
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "-I", "http://localhost:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+
+  postgres:
+    image: postgres:16
+    container_name: emplea_postgres
+    hostname: postgres
+    restart: unless-stopped
+
+    env_file:
+      - postgres/.env
+
+    volumes:
+      - /home/dashcloudbi/docker/datos/metabase/emplea:/var/lib/postgresql/data
+
+    networks:
+      - netemplea
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U metabase -d metabaseappdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+networks:
+  netemplea:
+    external: true
+    name: netemplea
