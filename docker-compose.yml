@@ -21,6 +21,7 @@ services:
 
     networks:
       - netemplea
+      - netadmin
 
     healthcheck:
       test: ["CMD", "curl", "--fail", "-I", "http://localhost:3000/api/health"]
@@ -67,3 +68,5 @@ networks:
   netemplea:
     external: true
     name: netemplea
+  netadmin:
+    external: true
