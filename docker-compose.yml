@@ -42,7 +42,7 @@ services:
     restart: unless-stopped
 
     env_file:
-      - postgres/.env
+      - .env
 
     volumes:
       - /home/dashcloudbi/docker/datos/metabase/emplea:/var/lib/postgresql/data
@@ -51,7 +51,7 @@ services:
       - netemplea
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U metabase -d metabaseappdb"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -67,4 +67,3 @@ networks:
   netemplea:
     external: true
     name: netemplea
-#########
