@@ -2,7 +2,7 @@
 .env
 postgres/.env
 
-# Datos de PostgreSQL
+# Datos persistentes
 pg_data/
 
 # Backups
