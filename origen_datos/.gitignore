@@ -1,0 +1,14 @@
+# Variables de entorno y credenciales
+.env
+
+# Datos persistentes
+pg_data/
+postgres_data/
+
+# Backups
+*.sql
+*.dump
+*.bak
+
+# Logs
+*.log
